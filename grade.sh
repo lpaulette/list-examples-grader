@@ -1,5 +1,5 @@
 #set -e
-CPATH='.;lib/hamcrest-core-1.3.jar;lib/junit-4.13.2.jar'
+CPATH='.;../lib/hamcrest-core-1.3.jar;../lib/junit-4.13.2.jar'
 
 rm -rf student-submission
 git clone $1 student-submission
@@ -19,14 +19,31 @@ fi
 
 cp ../*.java ./
 
-echo `ls ./`
+#echo `ls ./`
 
-javac -cp CPATH *.java 2>error-message.txt 
+javac -cp $CPATH *.java 2> error-message.txt 
 
-if [[ -s error-message.txt ]]
+if [[ $? -eq 0 ]]
 then 
-    echo "ERROR TRY AGAIN"
-    echo `cat error-message.txt`
-else 
     echo "COMPILE SUCCESS YAY"
+    
+else 
+    echo "COMPILE ERROR"
+    echo `cat error-message.txt`
+fi
+
+java -cp $CPATH org.junit.runner.JUnitCore TestListExamples > run-message.txt
+
+#echo `cat run-message.txt`
+#echo `grep "OK" run-message.txt`
+
+GREPCHECK=`grep OK run-message.txt`
+
+#echo $GREPCHECK
+
+if [[ -n $GREPCHECK ]]
+then
+    echo "TEST SUCCESS"
+else
+    echo "TESTS FAILED"
 fi
