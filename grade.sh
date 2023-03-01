@@ -1,5 +1,14 @@
 #set -e
-CPATH='.;../lib/hamcrest-core-1.3.jar;../lib/junit-4.13.2.jar'
+#CPATH='.;../lib/hamcrest-core-1.3.jar;../lib/junit-4.13.2.jar'
+
+#DETECTING OS (source: https://gist.github.com/3080525.git):
+UNAME=$(uname)
+
+if [[ "$UNAME" == CYGWIN* || "$UNAME" == MINGW* ]] ; then
+	CPATH='.;lib/hamcrest-core-1.3.jar;lib/junit-4.13.2.jar'
+else
+        CPATH='.:lib/hamcrest-core-1.3.jar:lib/junit-4.13.2.jar'
+fi
 
 rm -rf student-submission
 git clone $1 student-submission
