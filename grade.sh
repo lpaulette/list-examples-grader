@@ -34,7 +34,7 @@ fi
 
 java -cp $CPATH org.junit.runner.JUnitCore TestListExamples > run-message.txt
 
-#echo `cat run-message.txt`
+echo `cat run-message.txt`
 #echo `grep "OK" run-message.txt`
 
 GREPCHECK=`grep OK run-message.txt`
